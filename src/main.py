@@ -1,28 +1,16 @@
-import unittest
+# This is a sample Python script.
+
+# Press Shift+F10 to execute it or replace it with your code.
+# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 
-class ReturnClass:
-    def return_number(self):
-        return 897
-back = ReturnClass()
-resolution = back.return_number()
-print(f"number = {resolution}")
-
-class Test_ReturnClass(unittest.TestCase):
-    def test_return_number(self):
-        back = ReturnClass()
-        test_resolution = back.return_number()
-        self.assertEqual(test_resolution, 897)
-
-if __name__ == "__main__":
-    unittest.main()
+def print_hi(name):
+    # Use a breakpoint in the code line below to debug your script.
+    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    print_hi('PyCharm')
 
-
-
-
-
-
-
-
+# See PyCharm help at https://www.jetbrains.com/help/pycharm/
