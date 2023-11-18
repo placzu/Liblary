@@ -1,9 +1,10 @@
 import unittest
-from src.return_class import *
+from src.return_class import ReturnClass
 
 
-class Test_ReturnClass(unittest.TestCase):
+class TestReturnClass(unittest.TestCase):
     def test_return_number(self):
         example = ReturnClass()
         actual_value = example.return_number()
-        self.assertEqual(actual_value, 897)
+        expected_value = 897
+        self.assertEqual(actual_value, expected_value)
