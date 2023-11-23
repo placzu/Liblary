@@ -8,4 +8,4 @@ class Book:
 
     def present(self):
         return (
-            f"Book entitled {self.name} written by: {self.author}, with a short reviev {self.short_description} and {self.pages} pages.")
+            f"Book entitled {self.name} written by: {self.author}, with a short review {self.short_description} and {self.pages} pages.")
