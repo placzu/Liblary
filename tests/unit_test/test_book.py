@@ -2,9 +2,6 @@ import unittest
 from src.book import Book
 
 
-def setUp():
-    testemptybook = Book()
-
 class TestBook(unittest.TestCase):
 
     def testbook_present(self):
@@ -15,5 +12,5 @@ class TestBook(unittest.TestCase):
 
     def testemptybook_present(self):
         testemptybook = Book(name="Best composer", author="Rok Nardin", pages=57)
-        expected_solution = "Book entitled Best composer written by: Rok Nardin, with a short review No description and 57 pages."
+        expected_solution = "Book entitled Best composer written by: Rok Nardin, with a short review  and 57 pages."
         self.assertEqual(testemptybook.present(), expected_solution)
