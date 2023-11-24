@@ -1,16 +1,15 @@
 import unittest
-
-import src.book_adding
 from src.library import Library
-from src.book_adding import Adding_Book
+from src.book import Book
 
 
+class Test_AddingBook(unittest.TestCase):
 
-class Test_Adding_Book(unittest.TestCase):
+    def test_add_book(self):
+        library = Library()
+        book = Book("lord of the rings", "J.R.R", 987, "story about some rings")
+        library.add_book(book)
+        expected_library = [book]
 
-    def testbook_adding(self):
-        resoult = src.book_adding.book
-        expected_resoult = src.book_adding.book1
-        self.assertEqual(expected_resoult, resoult)
 
-
+        self.assertEqual(expected_library, library.books)
