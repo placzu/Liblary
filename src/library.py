@@ -10,9 +10,9 @@ class Library:
         self.books.append(book)
 
     def remove_book(self, book: Book):
-        if book in self.library.books:
-            self.library.remove_book(self.book)
-            return self.book
+        if book in self.books:
+            self.books.remove(book)
+            return self.books
 
     def get_number_of_books(self):
         return len(self.books)

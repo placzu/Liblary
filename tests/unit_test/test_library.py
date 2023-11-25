@@ -22,6 +22,8 @@ class TestLibrary(unittest.TestCase):
         self.assertEqual(expected_number, actual_number)
 
     def test_remove_book(self):
+        self.library.add_book(self.book)
+        self.library.remove_book(self.book)
         expected_number_after_remove = 0
         actual_number_after_remove = self.library.get_number_of_books()
         self.assertEqual(actual_number_after_remove, expected_number_after_remove)
