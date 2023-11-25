@@ -1,19 +1,10 @@
-
+from src.book import Book
 
 
 class Library:
 
     def __init__(self):
-        self.books = []  #lista ksiazek w bibliotece
+        self.books = []
 
-    def add_book(self, book):
+    def add_book(self, book: Book):
         self.books.append(book)
-
-
-
-
-
-
-
-
-
