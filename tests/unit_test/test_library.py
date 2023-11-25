@@ -18,9 +18,10 @@ class TestLibrary(unittest.TestCase):
     def test_books_number(self):
         self.library.add_book(self.book)
         expected_number = 1
-        actual_number = len(self.library.books)
+        actual_number = self.library.get_number_of_books()
         self.assertEqual(expected_number, actual_number)
 
-    def tearDown(self):
-        self.library = None
-        self.book = None
+    def test_remove_book(self):
+        expected_number_after_remove = 0
+        actual_number_after_remove = self.library.get_number_of_books()
+        self.assertEqual(actual_number_after_remove, expected_number_after_remove)
