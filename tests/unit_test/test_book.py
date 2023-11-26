@@ -14,3 +14,4 @@ class TestBook(unittest.TestCase):
         testemptybook = Book(name="Best composer", author="Rok Nardin", pages=57)
         expected_solution = "Book entitled Best composer written by: Rok Nardin, with a short review  and 57 pages."
         self.assertEqual(testemptybook.present(), expected_solution)
+
