@@ -110,6 +110,6 @@ class TestLibrary(unittest.TestCase):
         person = Person(Person("John", "Carter", email="johncarter@gmial.com", phone_number=123456789))
         actual_date = self.book.get_date()
         actual_deadline = self.book.get_deadline()
-        actual_output = self.book.add_renter(person)
+        actual_output = self.book.add_renter_to_book(person)
         expected_output = f"John Carter day {actual_date} has rented book 'lord of the rings' with deadline {actual_deadline}"
         self.assertEqual(actual_output, expected_output)
