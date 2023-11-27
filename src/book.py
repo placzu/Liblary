@@ -26,3 +26,6 @@ class Book:
         today = datetime.now()
         self.rent_deadline = (today + timedelta(days=14)).strftime("%d/%m/%Y/%H:%M")
         return self.rent_deadline
+
+    def current_renter(self):
+        self.current_renter
