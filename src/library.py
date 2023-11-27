@@ -1,11 +1,13 @@
 from src.book import Book
+from src.person import Person
 
 
 class Library:
 
     def __init__(self):
         self.books = []
-        self.hired_books = []
+        self.current_rented_books = []
+        self.person = []
 
     def add_book(self, book: Book):
         self.books.append(book)
@@ -19,12 +21,15 @@ class Library:
         return len(self.books)
 
     def add_book_to_hired_books(self, book: Book):
-        self.hired_books.append(book)
-        return self.hired_books
+        self.current_rented_books.append(book)
+        return self.current_rented_books
 
     def remove_hired_book_from_books(self, book: Book):
         self.books.remove(book)
         return self.books
 
     def get_hired_books_number(self):
-        return len(self.hired_books)
+        return len(self.current_rented_books)
+
+    def add_person(self, person: Person):
+        self.person.append(person)

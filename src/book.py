@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
+from src.person import Person
 
 
 class Book:
 
     def __init__(self, name: str, author: str, pages: int, short_description: str = None, rent_date: str = None,
-                 rent_deadline: str = None, current_renter: str = None):
+                 rent_deadline: str = None, current_renter: Person = None):
         self.name = name
         self.author = author
         self.short_description = short_description if short_description is not None else ""
@@ -27,5 +28,6 @@ class Book:
         self.rent_deadline = (today + timedelta(days=14)).strftime("%d/%m/%Y/%H:%M")
         return self.rent_deadline
 
-    def current_renter(self):
-        self.current_renter
+    def add_renter_to_book(self, person: Person):
+        self.current_renter = person
+        return f"{person}day {self.get_date()} has rented book '{self.name}' with deadline {self.get_deadline()}"
