@@ -33,3 +33,26 @@ class Library:
 
     def add_person(self, person: Person):
         self.person.append(person)
+
+    def book_rent(self, person: Person, book: Book):
+        if book in self.books:
+            self.books.remove(book)
+            self.current_rented_books.append(book)
+            return (f"{person.first_name} rent a {book.name}")
+        else:
+            return (f"don't have {book.name}")
+
+
+
+
+
+
+
+
+
+#    def current_renter(self):
+#        #kurwa ludzie ktorzy wynajmuja maja sie tutaj pojawiac pierdolona pamiec krotka!!!
+#        book.current_renter
+
+
+

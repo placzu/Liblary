@@ -113,3 +113,18 @@ class TestLibrary(unittest.TestCase):
         actual_output = self.book.add_renter_to_book(person)
         expected_output = f"John Carter day {actual_date} has rented book 'lord of the rings' with deadline {actual_deadline}"
         self.assertEqual(actual_output, expected_output)
+
+    def test_correct_book_rent(self):
+        self.library.add_book(self.book)
+        person = Person("John", "Carter", email="johncarter@gmial.com", phone_number=123456789)
+        expected_output = "John rent a lord of the rings"
+        actual_output = self.library.book_rent(person, self.book)
+        self.assertEqual(expected_output, actual_output)
+
+    def test_incorect_book_rent(self):
+        self.library.add_book(self.book)
+        self.library.remove_book(self.book)
+        person = Person("John", "Carter", email="johncarter@gmial.com", phone_number=123456789)
+        expected_output = "don't have lord of the rings"
+        actual_output = self.library.book_rent(person, self.book)
+        self.assertEqual(expected_output, actual_output)
