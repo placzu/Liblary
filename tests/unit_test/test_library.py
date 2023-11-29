@@ -39,7 +39,7 @@ class TestLibrary(unittest.TestCase):
 
     def test_correct_book_rent(self):
         self.library.add_book(self.book)
-        user = User("John", "Carter", email="johncarter@gmial.com", phone_number=123456789)
+        user = User("John", "Carter", email="johncarter@gmial.com", phone_number="123456789")
         expected_output = "John rent a lord of the rings"
         actual_output = self.library.book_rent(user, self.book)
         self.assertEqual(expected_output, actual_output)
@@ -47,7 +47,7 @@ class TestLibrary(unittest.TestCase):
     def test_incorect_book_rent(self):
         self.library.add_book(self.book)
         self.library.remove_book(self.book)
-        user = User("John", "Carter", email="johncarter@gmial.com", phone_number=123456789)
+        user = User("John", "Carter", email="johncarter@gmial.com", phone_number="123456789")
         expected_output = "don't have lord of the rings"
         actual_output = self.library.book_rent(user, self.book)
         self.assertEqual(expected_output, actual_output)

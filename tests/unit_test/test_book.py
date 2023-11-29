@@ -35,7 +35,7 @@ class TestBook(unittest.TestCase):
         self.assertEqual(actual_deadline, expected_deadline)
 
     def test_add_renter(self):
-        user = User("John", "Carter", email="johncarter@gmial.com", phone_number=123456789)
+        user = User("John", "Carter", email="johncarter@gmial.com", phone_number="123456789")
         actual_date = self.book.get_date()
         actual_deadline = self.book.get_deadline()
         actual_output = self.book.add_renter_to_book(user)
