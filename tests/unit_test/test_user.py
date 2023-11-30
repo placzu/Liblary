@@ -55,6 +55,16 @@ class TestUser(unittest.TestCase):
         expected_user = self.library.users
         self.assertEqual(expected_user, actual_user)
 
+    def test_users_number(self):
+        self.user = User("John", "Carter", email="JohnCarter@gmail.com", phone_number="+48123456789")
+        self.library.add_user(self.user)
+        self.user = User ("Bob", "Carter", email="BobCarter@gmail.com", phone_number="+48987654321")
+        self.library.add_user(self.user)
+        self.user = User("Michal", "Kosakowski", email="Michal@gmail.com", phone_number="+47123789456")
+        self.library.add_user(self.user)
+        print(self.library.users)
+        actual_output = len(self.library.users)
+        self.assertEqual(actual_output, 3)
     def test_validate_phone_number_correct(self):
         self.user = User("John", "Carter", phone_number="123456789")
         resolution = self.user.phone_number
