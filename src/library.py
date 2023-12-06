@@ -3,11 +3,13 @@ from src.user import User
 
 
 class Library:
-    books = []
-    users = []
+
+    def __init__(self):
+        self.books = []
+        self.users = []
 
     def add_book(self, book: Book):
-        Library.books.append(book)
+        self.books.append(book)
 
     def remove_book(self, book: Book):
         if book in self.books:
@@ -28,6 +30,7 @@ class Library:
         if user.phone_number:
             phone_validation = user.validate_phone_number(user.phone_number)
             if phone_validation != user.phone_number:
+                print(f"phone {phone_validation}")
                 return phone_validation
         self.users.append(user)
 

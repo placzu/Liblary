@@ -10,7 +10,7 @@ class TestUser(unittest.TestCase):
 
     def setUp(self):
         self.library = Library()
-        self.book = Book("lord of the rings", "J.R.R", 987, "story about some rings")
+        self.book = Book("lords of the rings", "J.R.R", 987, "story about some rings")
 
     def test_add_user_first_name_and_last_name(self):
         self.user = User("John", "Carter")
@@ -22,7 +22,7 @@ class TestUser(unittest.TestCase):
     def test_add_user_first_name(self):
         self.user = User("John")
         self.library.add_user(self.user)
-        actual_user = f"{self.user.first_name}"
+        actual_user = self.library.users[0].first_name
         expected_user = "John"
         self.assertEqual(expected_user, actual_user)
 
@@ -36,17 +36,18 @@ class TestUser(unittest.TestCase):
     def test_add_user_first_name_and_phone_number(self):
         self.user = User("John", phone_number="+48123456789")
         self.library.add_user(self.user)
-        actual_user = [self.user]
-        expected_user = self.library.users
+        actual_user = self.library.users[0].first_name, self.library.users[0].phone_number
+        expected_user = "John", "+48123456789"
         self.assertEqual(expected_user, actual_user)
 
     def test_add_user_first_name_and_borrowed_book(self):
-        self.user = User("John", borrowed_books="Toy Story 3")
+        self.user = User("John")
         self.library.add_user(self.user)
-        actual_user = [self.user]
-        expected_user = self.library.users
+        self.library.add_book(self.book)
+        self.library.book_rent(self.user, self.book)
+        actual_user = self.user.first_name + " " + "rent " +', '.join([book for book in self.user.borrowed_books.values()])
+        expected_user = "John rent lords of the rings"
         self.assertEqual(expected_user, actual_user)
-
     def test_add_user_with_all_values(self):
         self.user = User("John", "Carter", email="johncarter@gmial.com", phone_number="123456789",
                          borrowed_books="Toy Story 3")
@@ -56,13 +57,12 @@ class TestUser(unittest.TestCase):
         self.assertEqual(expected_user, actual_user)
 
     def test_users_number(self):
-        self.user = User("John", "Carter", email="JohnCarter@gmail.com", phone_number="+48123456789")
+        self.user = User("John", "Carter", email="JohnCarter@gmail.com", phone_number="123456789")
         self.library.add_user(self.user)
-        self.user = User ("Bob", "Carter", email="BobCarter@gmail.com", phone_number="+48987654321")
+        self.user = User ("Bob", "Carter", email="BobCarter@gmail.com", phone_number="687654321")
         self.library.add_user(self.user)
-        self.user = User("Michal", "Kosakowski", email="Michal@gmail.com", phone_number="+47123789456")
+        self.user = User("Michal", "Kosakowski", email="Michal@gmail.com", phone_number="123789456")
         self.library.add_user(self.user)
-        print(self.library.users)
         actual_output = len(self.library.users)
         self.assertEqual(actual_output, 3)
     def test_validate_phone_number_correct(self):

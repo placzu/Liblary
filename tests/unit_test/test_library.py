@@ -15,13 +15,16 @@ class TestLibrary(unittest.TestCase):
         self.library.add_book(self.book)
         expected_library = [self.book]
         actual_library = self.library.books
+
         self.assertEqual(expected_library, actual_library)
 
     def test_remove_book(self):
         self.library.add_book(self.book)
         self.library.remove_book(self.book)
+
         expected_number_after_remove = 0
         actual_number_after_remove = self.library.get_number_of_books()
+
         self.assertEqual(actual_number_after_remove, expected_number_after_remove)
 
     def test_get_number_of_books(self):
@@ -44,7 +47,7 @@ class TestLibrary(unittest.TestCase):
         actual_output = self.library.book_rent(user, self.book)
         self.assertEqual(expected_output, actual_output)
 
-    def test_incorect_book_rent(self):
+    def test_incorrect_book_rent(self):
         self.library.add_book(self.book)
         self.library.remove_book(self.book)
         user = User("John", "Carter", email="johncarter@gmial.com", phone_number="123456789")
