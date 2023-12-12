@@ -1,22 +1,18 @@
-from textual.app import App, ComposeResult
-from textual.widgets import Button, Footer, Header, Static
+import tkinter as tk
+from tkinter import messagebox
 
+class LibraryMenuApp:
+    def __init__(self, root):
+        self.root = root
+        self.buttons = ["Add Book", "Rent Book", "Rented Books", "All Books", "Add User"]
+        for button_text in self.buttons:
+            button = tk.Button(self.root, text=button_text, command=lambda bt=button_text: self.show_message(bt), height=5, width=50, fg="white", bg="gray")
+            button.pack()
 
-class LibraryMenuApp(App):
-    CSS_PATH = "library_main_menu_css.css"
-    BINDINGS = [("d", "dark_mode", "Set dark mode on/off")]
-
-    def compose(self):
-        yield Header(show_clock=True)
-        yield Footer()
-        yield Button("Add Book", id="addbook")
-        yield Button("Rent Book", id="rentbook")
-        yield Button("Rented Books", id="rentedbooks")
-        yield Button("All Books", id="allbooks")
-        yield Button("Add User", id="adduser")
-
-    def action_dark_mode(self):
-        self.dark = not self.dark
+    def show_message(self, button_text):
+        messagebox.showinfo("Button Pressed", f"You pressed {button_text}")
 
 if __name__ == "__main__":
-    LibraryMenuApp().run()
+    root = tk.Tk()
+    app = LibraryMenuApp(root)
+    root.mainloop()
