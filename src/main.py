@@ -1,5 +1,9 @@
+import sys
+sys.path.append('D:\\Liblary\\tests\\unit_test')
+
 import tkinter as tk
 from library_main_menu import LibraryMenuApp
+
 def print_hi(name):
     print(f'Hi, {name}')
 
