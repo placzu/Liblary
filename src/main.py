@@ -1,6 +1,3 @@
-import sys
-sys.path.append('D:\\Liblary\\tests\\unit_test')
-
 import tkinter as tk
 from library_main_menu import LibraryMenuApp
 
@@ -9,6 +6,7 @@ def print_hi(name):
 
 if __name__ == '__main__':
     print_hi('PyCharm')
+
     root = tk.Tk()
     app = LibraryMenuApp(root)
     root.mainloop()
