@@ -4,6 +4,7 @@ class Book:
         self.author = author
         self.is_rented = is_rented
 
+
 class BookStore:
     def __init__(self):
         self.books = []
@@ -14,6 +15,7 @@ class BookStore:
 
     def get_all_books(self):
         return self.books
+
 
 book_store = BookStore()
 book_store.add_book("The Witcher", "Andrzej Sapkowski")

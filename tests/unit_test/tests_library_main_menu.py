@@ -1,9 +1,11 @@
 import sys
+
 sys.path.append('D:\\Liblary\\src')
 
 import unittest
 import tkinter as tk
 from library_main_menu import LibraryMenuApp
+
 
 class TestLibraryMenuApp(unittest.TestCase):
     def setUp(self):
@@ -39,6 +41,7 @@ class TestLibraryMenuApp(unittest.TestCase):
     def test_create_main_buttons_non_admin(self):
         self.app.set_user("Michał")
         self.assertEqual(len(self.root.winfo_children()), len(self.app.buttons) - 3)
+
 
 if __name__ == '__main__':
     unittest.main()
