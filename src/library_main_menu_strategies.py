@@ -2,9 +2,11 @@ from tkinter import messagebox
 import tkinter as tk
 from books_data import book_store
 
+
 class ButtonStrategy:
     def execute(self, app, button_text):
         pass
+
 
 class ChangeUserStrategy(ButtonStrategy):
     def execute(self, app, button_text):
@@ -14,9 +16,11 @@ class ChangeUserStrategy(ButtonStrategy):
                 widget.destroy()
         app.create_user_buttons()
 
+
 class ExitStrategy(ButtonStrategy):
     def execute(self, app, button_text):
         app.root.destroy()
+
 
 class DefaultStrategy(ButtonStrategy):
     def execute(self, app, button_text):
