@@ -35,7 +35,7 @@ class AllBooksStrategy(ButtonStrategy):
         for book in all_books:
             listbox.insert(tk.END, f"Title: {book.title}, Author: {book.author}")
         listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        back_button = tk.Button(new_window, text="Powrót", command=new_window.destroy, bg='green', fg='white', font=("Helvetica", 12))
+        back_button = tk.Button(new_window, text="Back", command=new_window.destroy, bg='green', fg='white', font=("Helvetica", 12))
         back_button.pack(side=tk.BOTTOM)
         scrollbar.config(command=listbox.yview)
 
