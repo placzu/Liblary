@@ -1,7 +1,6 @@
 import tkinter as tk
 from books_data import book_store
-from library_main_menu_strategies import ButtonStrategy, ChangeUserStrategy, ExitStrategy, DefaultStrategy, \
-    AllBooksStrategy
+from library_main_menu_strategies import *
 
 
 class LibraryMenuApp:
@@ -33,18 +32,9 @@ class LibraryMenuApp:
                 widget.destroy()
         self.create_main_buttons()
 
-    def create_book_buttons(self):
-        book_frame = tk.Frame(self.root)
-        book_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
-        for book in self.book_store.get_all_books():
-            button = tk.Button(book_frame, text=f"{book.title} by {book.author}",
-                               command=lambda b=book: BookButtonStrategy().execute(self, b), height=2, width=50,
-                               fg="white", bg="gray")
-            button.pack(fill=tk.BOTH, expand=True)
-
     def create_user_buttons(self):
         for user in self.users:
-            button = tk.Button(self.root, text=user, command=lambda u=user: self.set_user(u), height=2, width=50,
+            button = tk.Button(self.root, text=user, command=lambda u=user: self.set_user(u), height=2,
                                fg="white", bg="gray")
             button.pack(fill=tk.BOTH, expand=True)
 
@@ -59,6 +49,6 @@ class LibraryMenuApp:
             elif self.user != "Admin" and button_text in ["Add Book", "Add User", "Rented Books"]:
                 continue
             button = tk.Button(self.root, text=button_text,
-                               command=lambda bt=button_text: self.buttons[bt].execute(self, bt), height=5, width=50,
+                               command=lambda bt=button_text: self.buttons[bt].execute(self, bt), height=5,
                                fg=text_color, bg=button_color)
             button.pack(fill=tk.BOTH, expand=True)

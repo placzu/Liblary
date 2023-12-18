@@ -1,6 +1,5 @@
 from tkinter import messagebox
 import tkinter as tk
-from books_data import book_store
 
 
 class ButtonStrategy:
@@ -19,7 +18,7 @@ class ChangeUserStrategy(ButtonStrategy):
 
 class ExitStrategy(ButtonStrategy):
     def execute(self, app, button_text):
-        app.root.destroy()
+        app.root.quit()
 
 
 class DefaultStrategy(ButtonStrategy):
@@ -28,29 +27,33 @@ class DefaultStrategy(ButtonStrategy):
 
 
 class AllBooksStrategy(ButtonStrategy):
+    def __init__(self):
+        self.book_frame = None
+
     def execute(self, app, button_text):
         all_books = app.book_store.get_all_books()
-        book_frame = tk.Frame(app.root)
-        book_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
-        canvas = tk.Canvas(book_frame)
-        scrollbar = tk.Scrollbar(book_frame, orient="vertical", command=canvas.yview)
-        scrollable_frame = tk.Frame(canvas)
-
-        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-        canvas.configure(yscrollcommand=scrollbar.set)
-
+        if self.book_frame is None:
+            self.book_frame = self.create_scrollable_book_frame(app.root)
         for book in all_books:
-            button = tk.Button(scrollable_frame, text=f"{book.title} by {book.author}", height=2, fg="white", bg="gray")
-            button.configure(command=lambda b=button: self.update_button_color(b))
-            button.pack(fill=tk.X)
+            self.add_book_button(self.book_frame, book)
 
-        canvas.pack(side="left", fill=tk.X, expand=True)
+    def create_scrollable_book_frame(self, root):
+        canvas = tk.Canvas(root, height=300, width=200)  # Limit the width of the canvas
+        scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
+        book_frame = tk.Frame(canvas)
+        book_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas.create_window((0, 0), window=book_frame, anchor='nw')
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.pack(side="left", fill=tk.BOTH, expand=True)
         scrollbar.pack(side="right", fill="y")
+        return book_frame
 
-        scrollable_frame.update()
-        canvas.config(scrollregion=canvas.bbox("all"))
+    def add_book_button(self, frame, book):
+        button = tk.Button(frame, text=f"{book.title} by {book.author}", height=2, fg="white", bg="gray")
+        button.configure(command=lambda b=button: self.toggle_button_color(b))
+        button.pack(fill=tk.BOTH, expand=1)
 
-    def update_button_color(self, button):
+    def toggle_button_color(self, button):
         current_color = button.cget("bg")
         new_color = "green" if current_color == "gray" else "gray"
         button.configure(bg=new_color)
