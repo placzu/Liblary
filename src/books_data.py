@@ -4,6 +4,7 @@ class Book:
         self.author = author
         self.is_rented = is_rented
 
+
 class BookStore:
     def __init__(self):
         self.books = []
@@ -14,6 +15,10 @@ class BookStore:
 
     def get_all_books(self):
         return self.books
+
+    def remove_book(self, title):
+        self.books = [book for book in self.books if book.title != title]
+
 
 book_store = BookStore()
 book_store.add_book("The Witcher", "Andrzej Sapkowski")
@@ -56,4 +61,3 @@ book_store.add_book("Anna Karenina", "Leo Tolstoy")
 book_store.add_book("The Adventures of Huckleberry Finn", "Mark Twain")
 book_store.add_book("Heart of Darkness", "Joseph Conrad")
 book_store.add_book("Frankenstein", "Mary Shelley")
-book_store.add_book("rented book", "renter")
