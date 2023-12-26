@@ -5,10 +5,22 @@ from abc import ABC, abstractmethod
 from users_data import User
 from users_data import save_users
 
+
 class ButtonStrategy(ABC):
     @abstractmethod
     def execute(self, app, button_text):
         pass
+
+    def create_scrollable_book_frame(self, root):
+        canvas = tk.Canvas(root, height=300, width=200)
+        scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
+        book_frame = tk.Frame(canvas)
+        book_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas.create_window((0, 0), window=book_frame, anchor='nw')
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.pack(side="left", fill=tk.BOTH, expand=True)
+        scrollbar.pack(side="right", fill="y")
+        return book_frame
 
 
 class ChangeUserStrategy(ButtonStrategy):

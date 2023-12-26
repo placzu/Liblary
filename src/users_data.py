@@ -1,5 +1,6 @@
 import json
 
+
 class User:
     def __init__(self, first_name, last_name, phone_number, address, email, status):
         self.first_name = first_name
@@ -16,16 +17,17 @@ class User:
         return self.__dict__
 
 
-def load_users():
-    try:
-        with open('users_data.json', 'r') as f:
-            users_dict = json.load(f)
-            return [User(**user) for user in users_dict]
-    except (FileNotFoundError, EOFError):
-        return []
+def load_users(filename='users_data.json'):
+    with open(filename, 'r') as f:
+        users_data = json.load(f)
+
+    users = [User(**user_data) for user_data in users_data if
+             all(field in user_data for field in User.__init__.__code__.co_varnames[1:])]
+    return users
 
 
-def save_users(users):
-    with open('users_data.json', 'w') as f:
-        users_dict = [user.to_dict() for user in users]
-        json.dump(users_dict, f)
+def save_users(users, filename='users_data.json'):
+    # Save users to a file
+    users_data = [user.to_dict() for user in users]
+    with open(filename, 'w') as f:
+        json.dump(users_data, f)
