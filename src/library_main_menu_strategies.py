@@ -4,6 +4,7 @@ import tkinter as tk
 from abc import ABC, abstractmethod
 from users_data import User
 from users_data import save_users
+from constants import ADMIN
 
 
 class ButtonStrategy(ABC):
@@ -314,21 +315,18 @@ class RemoveBookStrategy(ButtonStrategy):
         button.configure(bg=new_color)
 
     def remove_selected_books(self, app):
-        for book, button in list(self.book_buttons.items()):
-            if button.winfo_exists() and button.cget("bg") == "green":
-                app.book_store.remove_book(book.title)
-                messagebox.showinfo("Book Removed", f"You have removed {book.title} by {book.author}.")
-        self.execute(app, "Remove Book")
-
-    def remove_selected_books(self, app):
-        if app.user != "Admin":
-            messagebox.showinfo("Permission Denied", "Tylko Admin może usuwać książki.")
+        if app.user.status != ADMIN:
+            messagebox.showinfo("Permission Denied", " Only admin can delete books.")
             return
 
         for book, button in list(self.book_buttons.items()):
             if button.winfo_exists() and button.cget("bg") == "green":
-                app.book_store.remove_book(book.title)
-                messagebox.showinfo("Book Removed", f"You have removed {book.title} by {book.author}.")
+                answer = messagebox.askyesno("Deleting a book",
+                                             f"Are you sure you want to delete the book {book.title} by {book.author}?")
+
+                if answer:
+                    app.book_store.remove_book(book.title)
+                    messagebox.showinfo("Book removed", f"Deleted book {book.title} by {book.author}.")
         self.execute(app, "Remove Book")
 
 
@@ -415,10 +413,97 @@ class DeleteUserStrategy(ButtonStrategy):
         back_button.pack()
 
     def delete_user(self, app, user):
-        if user in app.users:
-            app.users.remove(user)
-            save_users(app.users)
-            messagebox.showinfo("User deleted", f"Deleted user {user.first_name} {user.last_name}.")
-        else:
-            messagebox.showinfo("Error", f"User {user.first_name} {user.last_name} does not exist.")
-        self.execute(app, "Delete User")
+        answer = messagebox.askyesno("User removal",
+                                     f"Are you sure you want to delete user {user.first_name} {user.last_name}?")
+
+        if answer:
+            if user in app.users:
+                app.users.remove(user)
+                save_users(app.users)
+                messagebox.showinfo("User removed", f"Deleted user {user.first_name} {user.last_name}.")
+            else:
+                messagebox.showinfo("Error", f"User {user.first_name} {user.last_name} does not exist.")
+            self.execute(app, "Delete User")
+
+
+class EditUserStrategy(ButtonStrategy):
+    def execute(self, app, button_text):
+        for widget in app.root.winfo_children():
+            if widget is not app.user_label:
+                widget.destroy()
+
+        for user in app.users:
+            if user.status != "Admin":
+                button = tk.Button(app.root, text=f"{user.first_name} {user.last_name}",
+                                   command=lambda u=user: self.edit_user(app, u), height=2, fg="white", bg="gray")
+                button.pack(fill=tk.BOTH, expand=1)
+
+        back_button = tk.Button(app.root, text="Back", command=app.back_to_main_menu, height=2, fg="white", bg="gray")
+        back_button.pack()
+
+    def edit_user(self, app, user):
+        for widget in app.root.winfo_children():
+            if widget is not app.user_label:
+                widget.destroy()
+
+        first_name_label = tk.Label(app.root, text="First name:")
+        first_name_label.pack()
+        first_name_entry = tk.Entry(app.root)
+        first_name_entry.insert(0, user.first_name)
+        first_name_entry.pack()
+
+        last_name_label = tk.Label(app.root, text="Last name:")
+        last_name_label.pack()
+        last_name_entry = tk.Entry(app.root)
+        last_name_entry.insert(0, user.last_name)
+        last_name_entry.pack()
+
+        phone_number_label = tk.Label(app.root, text="Phone number:")
+        phone_number_label.pack()
+        phone_number_entry = tk.Entry(app.root)
+        phone_number_entry.insert(0, user.phone_number)
+        phone_number_entry.pack()
+
+        address_label = tk.Label(app.root, text="Address:")
+        address_label.pack()
+        address_entry = tk.Entry(app.root)
+        address_entry.insert(0, user.address)
+        address_entry.pack()
+
+        email_label = tk.Label(app.root, text="Email:")
+        email_label.pack()
+        email_entry = tk.Entry(app.root)
+        email_entry.insert(0, user.email)
+        email_entry.pack()
+
+        status_label = tk.Label(app.root, text="Status (Admin/User):")
+        status_label.pack()
+        status_entry = tk.Entry(app.root)
+        status_entry.insert(0, user.status)
+        status_entry.pack()
+
+        save_button = tk.Button(app.root, text="Save Changes",
+                                command=lambda: self.save_changes(app, user, first_name_entry.get(),
+                                                                  last_name_entry.get(),
+                                                                  phone_number_entry.get(), address_entry.get(),
+                                                                  email_entry.get(), status_entry.get()))
+        save_button.pack()
+
+        back_button = tk.Button(app.root, text="Back", command=app.back_to_main_menu, height=2, fg="white", bg="gray")
+        back_button.pack()
+
+    def save_changes(self, app, user, first_name, last_name, phone_number, address, email, status):
+        if not all([first_name, last_name, phone_number, address, email, status]):
+            messagebox.showinfo("Invalid Input", "All fields must be filled.")
+            return
+
+        user.first_name = first_name
+        user.last_name = last_name
+        user.phone_number = phone_number
+        user.address = address
+        user.email = email
+        user.status = status
+
+        save_users(app.users)
+
+        messagebox.showinfo("User updated", f"Updated user {first_name} {last_name} with status {status}.")

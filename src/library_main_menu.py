@@ -2,17 +2,15 @@ import tkinter as tk
 from constants import ADMIN, USER
 from users_data import User, load_users, save_users
 from books_data import book_store
-from library_main_menu_strategies import (
-    SearchBookStrategy, AllBooksStrategy, ChangeUserStrategy,
-    ExitStrategy, AddBookStrategy, RentedBooksStrategy, ReturnBookStrategy,
-    RemoveBookStrategy, AddUserStrategy, DeleteUserStrategy
-)
+from library_main_menu_strategies import *
 
 
 class LibraryMenuApp:
     def __init__(self, root):
         self.root = root
-        self.root.attributes('-fullscreen', True)
+        self.fullscreen = False
+        self.root.bind("<F11>", self.toggle_fullscreen)
+        self.root.bind("<Escape>", self.end_fullscreen)
         self.users = self.initialize_users()
         self.users = self.initialize_users()
         self.book_store = book_store
@@ -21,6 +19,9 @@ class LibraryMenuApp:
         self.user_label.pack()
         self.search_entry = None
         self.create_user_buttons()
+        self.status_bar = tk.Label(self.root, text="ESC: Back | F11: Switch Fullscreen", bd=1, relief=tk.SUNKEN,
+                                   anchor=tk.W)
+        self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
 
     def initialize_users(self):
         users = load_users()
@@ -39,6 +40,7 @@ class LibraryMenuApp:
             "All Books": AllBooksStrategy(),
             "Search Book": SearchBookStrategy(),
             "Add User": AddUserStrategy(),
+            "Edit User": EditUserStrategy(),
             "Delete User": DeleteUserStrategy(),
             "Change User": ChangeUserStrategy(),
             "Exit": ExitStrategy()
@@ -66,6 +68,28 @@ class LibraryMenuApp:
                                fg="white", bg=button_color)
             button.pack(fill=tk.BOTH, expand=True)
 
+    def create_search_menu(self):
+        for widget in self.root.winfo_children():
+            if widget is not self.user_label:
+                widget.destroy()
+
+        label = tk.Label(self.root, text="Enter the name or author of the book:", fg="blue")
+        label.pack()
+        self.search_entry = tk.Entry(self.root)
+        self.search_entry.pack()
+        search_button = tk.Button(self.root, text="Szukaj", command=self.search_book, height=2, fg="white", bg="gray")
+        search_button.pack()
+        back_button = tk.Button(self.root, text="Back", command=self.back_to_main_menu, height=2, fg="white",
+                                bg="gray")
+        back_button.pack()
+
+    def search_book(self):
+        query = self.search_entry.get().lower()
+        matching_books = [book for book in self.book_store.books if
+                          query in book.title.lower() or query in book.author.lower()]
+        self.buttons["All Books"].execute(self, "All Books",
+                                          matching_books)
+
     def get_button_color(self, button_text):
         if button_text == "Change User":
             return "green"
@@ -80,7 +104,7 @@ class LibraryMenuApp:
                                command=lambda u=user: self.set_user(u), height=2, fg="white", bg="gray")
             button.pack(fill=tk.BOTH, expand=1)
 
-    def back_to_main_menu(self):
+    def back_to_main_menu(self, event=None):
         self.buttons["All Books"].clear_book_buttons()
         self.set_user(self.user)
 
@@ -94,3 +118,13 @@ class LibraryMenuApp:
         canvas.pack(side="left", fill=tk.BOTH, expand=True)
         scrollbar.pack(side="right", fill="y")
         return book_frame
+
+    def toggle_fullscreen(self, event=None):
+        self.fullscreen = not self.fullscreen  # Przełącz stan
+        self.root.attributes("-fullscreen", self.fullscreen)
+        return "break"
+
+    def end_fullscreen(self, event=None):
+        self.fullscreen = False
+        self.root.attributes("-fullscreen", self.fullscreen)
+        return "break"
