@@ -120,7 +120,7 @@ class LibraryMenuApp:
         return book_frame
 
     def toggle_fullscreen(self, event=None):
-        self.fullscreen = not self.fullscreen  # Przełącz stan
+        self.fullscreen = not self.fullscreen
         self.root.attributes("-fullscreen", self.fullscreen)
         return "break"
 
